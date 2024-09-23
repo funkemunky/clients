@@ -169,7 +169,12 @@ export class Organization {
     return this.isAdmin || this.permissions.accessReports;
   }
 
+  // Deprecated: https://bitwarden.atlassian.net/browse/PM-10863
   get canCreateNewCollections() {
+    return !this.limitCollectionCreation || this.isAdmin || this.permissions.createNewCollections;
+  }
+
+  get canCreateNewCollections_VNext() {
     return !this.limitCollectionCreation || this.isAdmin || this.permissions.createNewCollections;
   }
 
