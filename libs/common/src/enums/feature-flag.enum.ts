@@ -34,6 +34,7 @@ export enum FeatureFlag {
   AC2476_DeprecateStripeSourcesAPI = "AC-2476-deprecate-stripe-sources-api",
   CipherKeyEncryption = "cipher-key-encryption",
   PM11901_RefactorSelfHostingLicenseUploader = "PM-11901-refactor-self-hosting-license-uploader",
+  LimitCollectionCreationDeletionSplit = "pm-10863-limit-collection-creation-deletion-split",
 }
 
 export type AllowedFeatureFlagTypes = boolean | number | string;
@@ -78,6 +79,7 @@ export const DefaultFeatureFlagValue = {
   [FeatureFlag.AC2476_DeprecateStripeSourcesAPI]: FALSE,
   [FeatureFlag.CipherKeyEncryption]: FALSE,
   [FeatureFlag.PM11901_RefactorSelfHostingLicenseUploader]: FALSE,
+  [FeatureFlag.LimitCollectionCreationDeletionSplit]: FALSE,
 } satisfies Record<FeatureFlag, AllowedFeatureFlagTypes>;
 
 export type DefaultFeatureFlagValueType = typeof DefaultFeatureFlagValue;
