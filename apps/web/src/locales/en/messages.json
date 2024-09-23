@@ -8050,6 +8050,12 @@
   "limitCollectionCreationDeletionDesc": {
     "message": "Limit collection creation and deletion to owners and admins"
   },
+  "limitCollectionCreation": {
+    "message": "Limit collection creation to owners and admins"
+  },
+  "limitCollectionDeletion": {
+    "message": "Limit collection deletion to owners and admins"
+  },
   "allowAdminAccessToAllCollectionItemsDesc": {
     "message": "Owners and admins can manage all collections and items"
   },
