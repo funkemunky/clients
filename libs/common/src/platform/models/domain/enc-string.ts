@@ -171,7 +171,7 @@ export class EncString implements Encrypted {
       this.decryptedValue = await encryptService.decryptToUtf8(
         this,
         key,
-        orgId != null ? `orgkey-${orgId}` : "userkey/cipherkey/masterkey",
+        orgId != null ? `domain-orgkey-${orgId}` : "domain-userkey|cipherkey|masterkey",
       );
     } catch (e) {
       this.decryptedValue = DECRYPT_ERROR;
@@ -185,7 +185,7 @@ export class EncString implements Encrypted {
         throw new Error("No key to decrypt EncString");
       }
 
-      this.decryptedValue = await encryptService.decryptToUtf8(this, key);
+      this.decryptedValue = await encryptService.decryptToUtf8(this, key, "domain-withkey");
     } catch (e) {
       this.decryptedValue = DECRYPT_ERROR;
     }

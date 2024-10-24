@@ -66,7 +66,7 @@ export class EncryptServiceImplementation implements EncryptService {
   async decryptToUtf8(
     encString: EncString,
     key: SymmetricCryptoKey,
-    decryptContext?: string,
+    decryptContext: string = "no context",
   ): Promise<string> {
     if (key == null) {
       throw new Error("No key provided for decryption.");
