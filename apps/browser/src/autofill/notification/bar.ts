@@ -15,7 +15,7 @@ import {
   NotificationBarWindowMessage,
   NotificationBarIframeInitData,
 } from "./abstractions/notification-bar";
-import { NotificationOuterWrapper } from "./components/outer-wrapper";
+import { NotificationContainer } from "./components/container";
 
 const useComponentBar = true;
 
@@ -64,7 +64,7 @@ function initNotificationBar(message: NotificationBarWindowMessage) {
     lpCancelFilelessImport: chrome.i18n.getMessage("lpCancelFilelessImport"),
     startFilelessImport: chrome.i18n.getMessage("startFilelessImport"),
 
-    // @TODO move to message catalog
+    // @TODO move values to message catalog
     saveAction: "Save",
     saveAsNewLoginAction: "Save as new login",
     updateLoginAction: "Update login",
@@ -80,6 +80,9 @@ function initNotificationBar(message: NotificationBarWindowMessage) {
 
   if (useComponentBar) {
     document.body.innerHTML = "";
+    // Temporary workaround for removing required stylesheet for old notification bar experience
+    document.head.querySelectorAll('link[rel="stylesheet"]').forEach(node => node.remove());
+
     const themeType = getTheme(globalThis, theme);
 
     // There are other possible passed theme values, but for now, resolve to dark or light
@@ -87,7 +90,7 @@ function initNotificationBar(message: NotificationBarWindowMessage) {
 
     // @TODO use context to avoid prop drilling
     return render(
-      NotificationOuterWrapper({
+      NotificationContainer({
         ...notificationBarIframeInitData,
         theme: resolvedTheme,
         handleCloseNotification,
