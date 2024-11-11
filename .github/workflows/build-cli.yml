@@ -42,6 +42,8 @@ jobs:
   setup:
     name: Setup
     runs-on: ubuntu-22.04
+    needs:
+      - check-run
     outputs:
       package_version: ${{ steps.retrieve-package-version.outputs.package_version }}
       node_version: ${{ steps.retrieve-node-version.outputs.node_version }}
@@ -398,13 +400,12 @@ jobs:
       - cli
       - cli-windows
       - snap
-      - check-run
     steps:
       - name: Check if any job failed
         working-directory: ${{ github.workspace }}
         if: |
           github.event_name != 'pull_request_target'
-          && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/rc' || github.ref == 'refs/heads/hotfix-rc')
+          && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/rc' || github.ref == 'refs/heads/hotfix-rc-cli')
           && contains(needs.*.result, 'failure')
         run: exit 1
 
