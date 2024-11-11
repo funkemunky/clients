@@ -22,6 +22,17 @@
     </bit-no-items>
   </div>
 
+  <bit-banner
+    *ngIf="vaultState !== VaultStateEnum.Empty && scriptInjectionIsBlocked$"
+    id="domain-script-injection-blocked-banner"
+    bannerType="info"
+  >
+    Autofill is blocked for this website. Review or change this in settings.
+    <a bitLink linkType="contrast" class="tw-cursor-pointer" rel="noreferrer noopener">
+      {{ "routeToPaymentMethodTrigger" | i18n }}
+    </a>
+  </bit-banner>
+
   <!-- Show search & filters outside of the scroll area of the page -->
   <div slot="above-scroll-area" class="tw-p-4" *ngIf="vaultState !== VaultStateEnum.Empty">
     <app-vault-v2-search> </app-vault-v2-search>

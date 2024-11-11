@@ -8,7 +8,7 @@ import { combineLatest, Observable, shareReplay, switchMap } from "rxjs";
 import { JslibModule } from "@bitwarden/angular/jslib.module";
 import { CollectionId, OrganizationId } from "@bitwarden/common/types/guid";
 import { CipherType } from "@bitwarden/common/vault/enums";
-import { ButtonModule, Icons, NoItemsModule } from "@bitwarden/components";
+import { BannerModule, ButtonModule, Icons, NoItemsModule } from "@bitwarden/components";
 import { VaultIcons } from "@bitwarden/vault";
 
 import { CurrentAccountComponent } from "../../../../auth/popup/account-switching/current-account.component";
@@ -47,6 +47,7 @@ enum VaultState {
     AutofillVaultListItemsComponent,
     VaultListItemsContainerComponent,
     VaultListFiltersComponent,
+    BannerModule,
     ButtonModule,
     RouterLink,
     VaultV2SearchComponent,
@@ -61,6 +62,8 @@ export class VaultV2Component implements OnInit, OnDestroy {
   protected favoriteCiphers$ = this.vaultPopupItemsService.favoriteCiphers$;
   protected remainingCiphers$ = this.vaultPopupItemsService.remainingCiphers$;
   protected loading$ = this.vaultPopupItemsService.loading$;
+  // @TODO if feature flag is on and site matches
+  protected scriptInjectionIsBlocked$ = true;
 
   protected newItemItemValues$: Observable<NewItemInitialValues> =
     this.vaultPopupListFiltersService.filters$.pipe(
