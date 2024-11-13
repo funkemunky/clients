@@ -5,6 +5,12 @@
     "version": "latest",
     "title": "Vault Management API"
   },
+  "servers": [
+    {
+      "url": "http://localhost:8087",
+      "description": "Default port when running bw serve locally"
+    }
+  ],
   "paths": {
     "/lock": {
       "post": {

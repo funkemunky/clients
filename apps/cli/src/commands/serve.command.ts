@@ -1,3 +1,4 @@
+import * as koaCors from "@koa/cors";
 import * as koaRouter from "@koa/router";
 import { OptionValues } from "commander";
 import * as koa from "koa";
@@ -46,7 +47,8 @@ export class ServeCommand {
         await next();
       })
       .use(koaBodyParser())
-      .use(koaJson({ pretty: false, param: "pretty" }));
+      .use(koaJson({ pretty: false, param: "pretty" }))
+      .use(koaCors());
 
     this.serveConfigurator.configureRouter(router);
 
