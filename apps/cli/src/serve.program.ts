@@ -26,6 +26,10 @@ export class ServeProgram extends BaseProgram {
         "--disable-origin-protection",
         "If set, allows requests with origin header. Warning, this option exists for backwards compatibility reasons and exposes your environment to known CSRF attacks.",
       )
+      .option(
+        "--docs",
+        "Enable SwaggerUI documentation hosted at /docs on the configured hostname and port",
+      )
       .on("--help", () => {
         writeLn("\n  Notes:");
         writeLn("");

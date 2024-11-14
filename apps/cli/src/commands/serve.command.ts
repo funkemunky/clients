@@ -4,6 +4,7 @@ import { OptionValues } from "commander";
 import * as koa from "koa";
 import * as koaBodyParser from "koa-bodyparser";
 import * as koaJson from "koa-json";
+import { koaSwagger } from "koa2-swagger-ui";
 
 import { Utils } from "@bitwarden/common/platform/misc/utils";
 
@@ -49,6 +50,17 @@ export class ServeCommand {
       .use(koaBodyParser())
       .use(koaJson({ pretty: false, param: "pretty" }))
       .use(koaCors());
+
+    if (options.docs) {
+      // Enable SwaggerUI
+      server.use(
+        koaSwagger({
+          swaggerOptions: {
+            spec: require("../../swagger.json"),
+          },
+        }),
+      );
+    }
 
     this.serveConfigurator.configureRouter(router);
 
