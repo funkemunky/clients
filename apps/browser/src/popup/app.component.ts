@@ -36,8 +36,8 @@ import { DesktopSyncVerificationDialogComponent } from "./components/desktop-syn
   selector: "app-root",
   styles: [],
   animations: [routerTransition],
-  template: ` <div [@routerTransition]="getState(o)">
-    <router-outlet #o="outlet"></router-outlet>
+  template: ` <div [@routerTransition]="getRouteElevation(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
   </div>`,
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -216,23 +216,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getState(outlet: RouterOutlet) {
+  getRouteElevation(outlet: RouterOutlet) {
     if (!this.routerAnimations) {
       return;
-    } else if (outlet.activatedRouteData.state === "ciphers") {
-      const routeDirection =
-        (window as any).routeDirection != null ? (window as any).routeDirection : "";
-      return (
-        "ciphers_direction=" +
-        routeDirection +
-        "_" +
-        (outlet.activatedRoute.queryParams as any).value.folderId +
-        "_" +
-        (outlet.activatedRoute.queryParams as any).value.collectionId
-      );
-    } else {
-      return outlet.activatedRouteData.state;
     }
+
+    return outlet.activatedRouteData.elevation;
   }
 
   private async recordActivity() {
