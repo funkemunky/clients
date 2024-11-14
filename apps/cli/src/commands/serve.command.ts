@@ -51,6 +51,8 @@ export class ServeCommand {
       .use(koaJson({ pretty: false, param: "pretty" }))
       .use(koaCors());
 
+    // TODO: is cors handling still required?
+    // TODO: is this compatible with the protectOrigin stuff, or does it bypass it?
     if (options.docs) {
       // Enable SwaggerUI
       server.use(
