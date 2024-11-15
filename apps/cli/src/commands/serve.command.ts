@@ -1,4 +1,3 @@
-import * as koaCors from "@koa/cors";
 import * as koaRouter from "@koa/router";
 import { OptionValues } from "commander";
 import * as koa from "koa";
@@ -21,11 +20,20 @@ export class ServeCommand {
     const protectOrigin = !options.disableOriginProtection;
     const port = options.port || 8087;
     const hostname = options.hostname || "localhost";
+    const enableDocs = options.docs;
+    const origin = "http://" + hostname + ":" + port;
+
     this.serviceContainer.logService.info(
       `Starting server on ${hostname}:${port} with ${
         protectOrigin ? "origin protection" : "no origin protection"
       }`,
     );
+
+    if (enableDocs) {
+      this.serviceContainer.logService.info(
+        `Starting SwaggerUI on ${hostname}:${port}/docs. Requests from this origin will be allowed regardless of origin protection.`,
+      );
+    }
 
     const server = new koa();
     const router = new koaRouter();
@@ -34,7 +42,11 @@ export class ServeCommand {
 
     server
       .use(async (ctx, next) => {
-        if (protectOrigin && ctx.headers.origin != undefined) {
+        if (
+          protectOrigin &&
+          ctx.headers.origin != undefined &&
+          (!enableDocs || ctx.headers.origin !== origin)
+        ) {
           ctx.status = 403;
           this.serviceContainer.logService.warning(
             `Blocking request from "${
@@ -48,16 +60,15 @@ export class ServeCommand {
         await next();
       })
       .use(koaBodyParser())
-      .use(koaJson({ pretty: false, param: "pretty" }))
-      .use(koaCors());
+      .use(koaJson({ pretty: false, param: "pretty" }));
 
     // Enable SwaggerUI
-    if (options.docs) {
+    if (enableDocs) {
       // eslint-disable-next-line
       const spec = require("../../swagger.json");
       spec.servers = [
         {
-          url: "http://" + hostname + ":" + port,
+          url: origin,
           description: "bw serve",
         },
       ];
