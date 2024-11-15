@@ -20,16 +20,16 @@
     "message": "Створити обліковий запис"
   },
   "newToBitwarden": {
-    "message": "Вперше у Bitwarden?"
+    "message": "New to Bitwarden?"
   },
   "logInWithPasskey": {
-    "message": "Увійти з ключем доступу"
+    "message": "Log in with passkey"
   },
   "useSingleSignOn": {
-    "message": "Використовувати єдиний вхід"
+    "message": "Use single sign-on"
   },
   "welcomeBack": {
-    "message": "З поверненням"
+    "message": "Welcome back"
   },
   "setAStrongPassword": {
     "message": "Встановіть надійний пароль"
@@ -120,7 +120,7 @@
     "message": "Копіювати пароль"
   },
   "copyPassphrase": {
-    "message": "Копіювати парольну фразу"
+    "message": "Copy passphrase"
   },
   "copyNote": {
     "message": "Копіювати нотатку"
@@ -152,6 +152,15 @@
   "copyLicenseNumber": {
     "message": "Копіювати номер ліцензії"
   },
+  "copyPrivateKey": {
+    "message": "Copy private key"
+  },
+  "copyPublicKey": {
+    "message": "Copy public key"
+  },
+  "copyFingerprint": {
+    "message": "Copy fingerprint"
+  },
   "copyCustomField": {
     "message": "Копіювати $FIELD$",
     "placeholders": {
@@ -168,7 +177,7 @@
     "message": "Копіювати нотатки"
   },
   "fill": {
-    "message": "Заповнити",
+    "message": "Fill",
     "description": "This string is used on the vault page to indicate autofilling. Horizontal space is limited in the interface here so try and keep translations as concise as possible."
   },
   "autoFill": {
@@ -427,7 +436,7 @@
     "message": "Генерувати пароль"
   },
   "generatePassphrase": {
-    "message": "Генерувати парольну фразу"
+    "message": "Generate passphrase"
   },
   "regeneratePassword": {
     "message": "Генерувати новий"
@@ -591,7 +600,7 @@
     "message": "Відкрити вебсайт"
   },
   "launchWebsiteName": {
-    "message": "Відкрити вебсайт $ITEMNAME$",
+    "message": "Launch website $ITEMNAME$",
     "placeholders": {
       "itemname": {
         "content": "$1",
@@ -846,7 +855,7 @@
     "message": "Увійти"
   },
   "logInToBitwarden": {
-    "message": "Увійти в Bitwarden"
+    "message": "Log in to Bitwarden"
   },
   "restartRegistration": {
     "message": "Перезапустити реєстрацію"
@@ -1424,7 +1433,7 @@
     "message": "URL-адреса сервера"
   },
   "selfHostBaseUrl": {
-    "message": "URL-адреса власного сервера",
+    "message": "Self-host server URL",
     "description": "Label for field requesting a self-hosted integration service URL"
   },
   "apiUrl": {
@@ -1764,6 +1773,9 @@
   "typeIdentity": {
     "message": "Посвідчення"
   },
+  "typeSshKey": {
+    "message": "SSH key"
+  },
   "newItemHeader": {
     "message": "Новий $TYPE$",
     "placeholders": {
@@ -1795,13 +1807,13 @@
     "message": "Історія паролів"
   },
   "generatorHistory": {
-    "message": "Історія генератора"
+    "message": "Generator history"
   },
   "clearGeneratorHistoryTitle": {
-    "message": "Очистити історію генератора"
+    "message": "Clear generator history"
   },
   "cleargGeneratorHistoryDescription": {
-    "message": "Якщо ви продовжите, усі записи будуть остаточно видалені з історії генератора. Справді продовжити?"
+    "message": "If you continue, all entries will be permanently deleted from generator's history. Are you sure you want to continue?"
   },
   "back": {
     "message": "Назад"
@@ -1920,10 +1932,10 @@
     "message": "Очистити історію"
   },
   "nothingToShow": {
-    "message": "Немає даних для показу"
+    "message": "Nothing to show"
   },
   "nothingGeneratedRecently": {
-    "message": "Ви нічого не генерували останнім часом"
+    "message": "You haven't generated anything recently"
   },
   "remove": {
     "message": "Вилучити"
@@ -2512,7 +2524,7 @@
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
   "sendPasswordDescV3": {
-    "message": "За бажання додайте пароль для отримувачів цього відправлення.",
+    "message": "Add an optional password for recipients to access this Send.",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
   "sendNotesDesc": {
@@ -2875,10 +2887,10 @@
     "message": "Генерувати ім'я користувача"
   },
   "generateEmail": {
-    "message": "Генерувати е-пошту"
+    "message": "Generate email"
   },
   "generatorBoundariesHint": {
-    "message": "Значення має бути між $MIN$ та $MAX$",
+    "message": "Value must be between $MIN$ and $MAX$",
     "description": "Explains spin box minimum and maximum values to the user",
     "placeholders": {
       "min": {
@@ -2932,11 +2944,11 @@
     "message": "Згенеруйте псевдонім е-пошти зі стороннім сервісом пересилання."
   },
   "forwarderDomainName": {
-    "message": "Домен електронної пошти",
+    "message": "Email domain",
     "description": "Labels the domain name email forwarder service option"
   },
   "forwarderDomainNameHint": {
-    "message": "Виберіть домен, який підтримується вибраною службою",
+    "message": "Choose a domain that is supported by the selected service",
     "description": "Guidance provided for email forwarding services that support multiple email domains."
   },
   "forwarderError": {
@@ -4564,13 +4576,13 @@
     "message": "Розташування запису"
   },
   "fileSend": {
-    "message": "Відправлення файлу"
+    "message": "File Send"
   },
   "fileSends": {
     "message": "Відправлення файлів"
   },
   "textSend": {
-    "message": "Відправлення тексту"
+    "message": "Text Send"
   },
   "textSends": {
     "message": "Відправлення тексту"
@@ -4592,6 +4604,30 @@
   },
   "enterprisePolicyRequirementsApplied": {
     "message": "До цього налаштування застосовано вимоги політики компанії"
+  },
+  "sshPrivateKey": {
+    "message": "Private key"
+  },
+  "sshPublicKey": {
+    "message": "Public key"
+  },
+  "sshFingerprint": {
+    "message": "Fingerprint"
+  },
+  "sshKeyAlgorithm": {
+    "message": "Key type"
+  },
+  "sshKeyAlgorithmED25519": {
+    "message": "ED25519"
+  },
+  "sshKeyAlgorithmRSA2048": {
+    "message": "RSA 2048-Bit"
+  },
+  "sshKeyAlgorithmRSA3072": {
+    "message": "RSA 3072-Bit"
+  },
+  "sshKeyAlgorithmRSA4096": {
+    "message": "RSA 4096-Bit"
   },
   "retry": {
     "message": "Повторити спробу"
@@ -4636,156 +4672,156 @@
     "message": "Аутентифікація"
   },
   "fillGeneratedPassword": {
-    "message": "Заповнити згенерований пароль",
+    "message": "Fill generated password",
     "description": "Heading for the password generator within the inline menu"
   },
   "passwordRegenerated": {
-    "message": "Пароль згенеровано повторно",
+    "message": "Password regenerated",
     "description": "Notification message for when a password has been regenerated"
   },
   "saveLoginToBitwarden": {
-    "message": "Зберегти запис у Bitwarden?",
+    "message": "Save login to Bitwarden?",
     "description": "Confirmation message for saving a login to Bitwarden"
   },
   "spaceCharacterDescriptor": {
-    "message": "Пробіл",
+    "message": "Space",
     "description": "Represents the space key in screen reader content as a readable word"
   },
   "tildeCharacterDescriptor": {
-    "message": "Тильда",
+    "message": "Tilde",
     "description": "Represents the ~ key in screen reader content as a readable word"
   },
   "backtickCharacterDescriptor": {
-    "message": "Зворотна лапка",
+    "message": "Backtick",
     "description": "Represents the ` key in screen reader content as a readable word"
   },
   "exclamationCharacterDescriptor": {
-    "message": "Знак оклику",
+    "message": "Exclamation mark",
     "description": "Represents the ! key in screen reader content as a readable word"
   },
   "atSignCharacterDescriptor": {
-    "message": "Знак @ (At)",
+    "message": "At sign",
     "description": "Represents the @ key in screen reader content as a readable word"
   },
   "hashSignCharacterDescriptor": {
-    "message": "Знак решітки",
+    "message": "Hash sign",
     "description": "Represents the # key in screen reader content as a readable word"
   },
   "dollarSignCharacterDescriptor": {
-    "message": "Знак долара",
+    "message": "Dollar sign",
     "description": "Represents the $ key in screen reader content as a readable word"
   },
   "percentSignCharacterDescriptor": {
-    "message": "Знак відсотка",
+    "message": "Percent sign",
     "description": "Represents the % key in screen reader content as a readable word"
   },
   "caretCharacterDescriptor": {
-    "message": "Карет",
+    "message": "Caret",
     "description": "Represents the ^ key in screen reader content as a readable word"
   },
   "ampersandCharacterDescriptor": {
-    "message": "Амперсанд",
+    "message": "Ampersand",
     "description": "Represents the & key in screen reader content as a readable word"
   },
   "asteriskCharacterDescriptor": {
-    "message": "Зірочка",
+    "message": "Asterisk",
     "description": "Represents the * key in screen reader content as a readable word"
   },
   "parenLeftCharacterDescriptor": {
-    "message": "Ліва дужка",
+    "message": "Left parenthesis",
     "description": "Represents the ( key in screen reader content as a readable word"
   },
   "parenRightCharacterDescriptor": {
-    "message": "Права дужка",
+    "message": "Right parenthesis",
     "description": "Represents the ) key in screen reader content as a readable word"
   },
   "hyphenCharacterDescriptor": {
-    "message": "Знак підкреслення",
+    "message": "Underscore",
     "description": "Represents the _ key in screen reader content as a readable word"
   },
   "underscoreCharacterDescriptor": {
-    "message": "Дефіс",
+    "message": "Hyphen",
     "description": "Represents the - key in screen reader content as a readable word"
   },
   "plusCharacterDescriptor": {
-    "message": "Плюс",
+    "message": "Plus",
     "description": "Represents the + key in screen reader content as a readable word"
   },
   "equalsCharacterDescriptor": {
-    "message": "Дорівнює",
+    "message": "Equals",
     "description": "Represents the = key in screen reader content as a readable word"
   },
   "braceLeftCharacterDescriptor": {
-    "message": "Ліва фігурна дужка",
+    "message": "Left brace",
     "description": "Represents the { key in screen reader content as a readable word"
   },
   "braceRightCharacterDescriptor": {
-    "message": "Права фігурна дужка",
+    "message": "Right brace",
     "description": "Represents the } key in screen reader content as a readable word"
   },
   "bracketLeftCharacterDescriptor": {
-    "message": "Ліва квадратна дужка",
+    "message": "Left bracket",
     "description": "Represents the [ key in screen reader content as a readable word"
   },
   "bracketRightCharacterDescriptor": {
-    "message": "Права квадратна дужка",
+    "message": "Right bracket",
     "description": "Represents the ] key in screen reader content as a readable word"
   },
   "pipeCharacterDescriptor": {
-    "message": "Вертикальна риска",
+    "message": "Pipe",
     "description": "Represents the | key in screen reader content as a readable word"
   },
   "backSlashCharacterDescriptor": {
-    "message": "Обернена скісна риска",
+    "message": "Back slash",
     "description": "Represents the back slash key in screen reader content as a readable word"
   },
   "colonCharacterDescriptor": {
-    "message": "Двокрапка",
+    "message": "Colon",
     "description": "Represents the : key in screen reader content as a readable word"
   },
   "semicolonCharacterDescriptor": {
-    "message": "Крапка з комою",
+    "message": "Semicolon",
     "description": "Represents the ; key in screen reader content as a readable word"
   },
   "doubleQuoteCharacterDescriptor": {
-    "message": "Подвійні лапки",
+    "message": "Double quote",
     "description": "Represents the double quote key in screen reader content as a readable word"
   },
   "singleQuoteCharacterDescriptor": {
-    "message": "Одинарні лапки",
+    "message": "Single quote",
     "description": "Represents the ' key in screen reader content as a readable word"
   },
   "lessThanCharacterDescriptor": {
-    "message": "Менше",
+    "message": "Less than",
     "description": "Represents the < key in screen reader content as a readable word"
   },
   "greaterThanCharacterDescriptor": {
-    "message": "Більше",
+    "message": "Greater than",
     "description": "Represents the > key in screen reader content as a readable word"
   },
   "commaCharacterDescriptor": {
-    "message": "Кома",
+    "message": "Comma",
     "description": "Represents the , key in screen reader content as a readable word"
   },
   "periodCharacterDescriptor": {
-    "message": "Крапка",
+    "message": "Period",
     "description": "Represents the . key in screen reader content as a readable word"
   },
   "questionCharacterDescriptor": {
-    "message": "Знак питання",
+    "message": "Question mark",
     "description": "Represents the ? key in screen reader content as a readable word"
   },
   "forwardSlashCharacterDescriptor": {
-    "message": "Скісна риска",
+    "message": "Forward slash",
     "description": "Represents the / key in screen reader content as a readable word"
   },
   "lowercaseAriaLabel": {
-    "message": "Малі літери"
+    "message": "Lowercase"
   },
   "uppercaseAriaLabel": {
-    "message": "Великі літери"
+    "message": "Uppercase"
   },
   "generatedPassword": {
-    "message": "Згенерований пароль"
+    "message": "Generated password"
   }
 }
