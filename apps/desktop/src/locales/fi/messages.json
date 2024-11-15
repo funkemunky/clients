@@ -26,6 +26,9 @@
   "typeSecureNote": {
     "message": "Salattu muistio"
   },
+  "typeSshKey": {
+    "message": "SSH key"
+  },
   "folders": {
     "message": "Kansiot"
   },
@@ -61,7 +64,7 @@
     }
   },
   "welcomeBack": {
-    "message": "Tervetuloa takaisin"
+    "message": "Welcome back"
   },
   "moveToOrgDesc": {
     "message": "Valitse organisaatio, jolle haluat siirtää kohteen. Tämä siirtää kohteen organisaation omistukseen, etkä tämän jälkeen ole enää sen suora omistaja."
@@ -176,6 +179,48 @@
   },
   "address": {
     "message": "Osoite"
+  },
+  "sshPrivateKey": {
+    "message": "Private key"
+  },
+  "sshPublicKey": {
+    "message": "Public key"
+  },
+  "sshFingerprint": {
+    "message": "Fingerprint"
+  },
+  "sshKeyAlgorithm": {
+    "message": "Key type"
+  },
+  "sshKeyAlgorithmED25519": {
+    "message": "ED25519"
+  },
+  "sshKeyAlgorithmRSA2048": {
+    "message": "RSA 2048-Bit"
+  },
+  "sshKeyAlgorithmRSA3072": {
+    "message": "RSA 3072-Bit"
+  },
+  "sshKeyAlgorithmRSA4096": {
+    "message": "RSA 4096-Bit"
+  },
+  "sshKeyGenerated": {
+    "message": "A new SSH key was generated"
+  },
+  "sshAgentUnlockRequired": {
+    "message": "Please unlock your vault to approve the SSH key request."
+  },
+  "sshAgentUnlockTimeout": {
+    "message": "SSH key request timed out."
+  },
+  "enableSshAgent": {
+    "message": "Enable SSH agent"
+  },
+  "enableSshAgentDesc": {
+    "message": "Enable the SSH agent to sign SSH requests right from your Bitwarden vault."
+  },
+  "enableSshAgentHelp": {
+    "message": "The SSH agent is a service targeted at developers that allows you to sign SSH requests directly from your Bitwarden vault."
   },
   "premiumRequired": {
     "message": "Premium vaaditaan"
@@ -400,6 +445,12 @@
   "copyPassword": {
     "message": "Kopioi salasana"
   },
+  "regenerateSshKey": {
+    "message": "Regenerate SSH key"
+  },
+  "copySshPrivateKey": {
+    "message": "Copy SSH private key"
+  },
   "copyPassphrase": {
     "message": "Kopioi salalause",
     "description": "Copy passphrase to clipboard"
@@ -558,7 +609,7 @@
     "message": "Luo tili"
   },
   "newToBitwarden": {
-    "message": "Oletko uusi Bitwardenissa?"
+    "message": "New to Bitwarden?"
   },
   "setAStrongPassword": {
     "message": "Aseta vahva salasana"
@@ -570,16 +621,16 @@
     "message": "Kirjaudu"
   },
   "logInToBitwarden": {
-    "message": "Kirjaudu Bitwardeniin"
+    "message": "Log in to Bitwarden"
   },
   "logInWithPasskey": {
-    "message": "Kirjaudu pääsyavaimella"
+    "message": "Log in with passkey"
   },
   "loginWithDevice": {
-    "message": "Kirjaudu laitteella"
+    "message": "Log in with device"
   },
   "useSingleSignOn": {
-    "message": "Käytä kertakirjautumista"
+    "message": "Use single sign-on"
   },
   "submit": {
     "message": "Jatka"
@@ -1684,10 +1735,10 @@
     "message": "Tilin poisto on pysyvä toimenpide, eikä sen peruminen ole mahdollista."
   },
   "cannotDeleteAccount": {
-    "message": "Tiliä ei voi poistaa"
+    "message": "Cannot delete account"
   },
   "cannotDeleteAccountDesc": {
-    "message": "Tätä toimintoa ei voida suorittaa, koska tilisi on organisaation omistama. Ota yhteyttä organisaation ylläpitäjään saadaksesi lisätietoja."
+    "message": "This action cannot be completed because your account is owned by an organization. Contact your organization administrator for additional details."
   },
   "accountDeleted": {
     "message": "Tili poistettiin"
@@ -2394,7 +2445,7 @@
     "message": "Luo sähköpostiosoite"
   },
   "generatorBoundariesHint": {
-    "message": "Arvon tulee olla väliltä $MIN$ - $MAX$",
+    "message": "Value must be between $MIN$ and $MAX$",
     "description": "Explains spin box minimum and maximum values to the user",
     "placeholders": {
       "min": {
@@ -3224,6 +3275,36 @@
   },
   "ssoError": {
     "message": "Kertakirjautumiselle ei löytynyt vapaita portteja."
+  },
+  "authorize": {
+    "message": "Authorize"
+  },
+  "deny": {
+    "message": "Deny"
+  },
+  "sshkeyApprovalTitle": {
+    "message": "Confirm SSH key usage"
+  },
+  "sshkeyApprovalMessageInfix": {
+    "message": "is requesting access to"
+  },
+  "unknownApplication": {
+    "message": "An application"
+  },
+  "sshKeyPasswordUnsupported": {
+    "message": "Importing password protected SSH keys is not yet supported"
+  },
+  "invalidSshKey": {
+    "message": "The SSH key is invalid"
+  },
+  "sshKeyTypeUnsupported": {
+    "message": "The SSH key type is not supported"
+  },
+  "importSshKeyFromClipboard": {
+    "message": "Import key from clipboard"
+  },
+  "sshKeyPasted": {
+    "message": "SSH key imported successfully"
   },
   "fileSavedToDevice": {
     "message": "Tiedosto tallennettiin laitteelle. Hallitse sitä laitteesi latauksista."
