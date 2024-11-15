@@ -63,11 +63,7 @@ export const mockMemberCipherDetails: any = [
     userName: "Chris Finch",
     email: "chris.finch@wernhamhogg.uk",
     usesKeyConnector: true,
-    cipherIds: [
-      "cbea34a8-bde4-46ad-9d19-b05001228ab2",
-      "cbea34a8-bde4-46ad-9d19-b05001228cd3",
-      "cbea34a8-bde4-46ad-9d19-b05001228xy4",
-    ],
+    cipherIds: ["cbea34a8-bde4-46ad-9d19-b05001227nm5"],
   },
 ];
 
