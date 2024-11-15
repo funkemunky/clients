@@ -51,14 +51,21 @@ export class ServeCommand {
       .use(koaJson({ pretty: false, param: "pretty" }))
       .use(koaCors());
 
-    // TODO: is cors handling still required?
-    // TODO: is this compatible with the protectOrigin stuff, or does it bypass it?
+    // Enable SwaggerUI
     if (options.docs) {
-      // Enable SwaggerUI
+      // eslint-disable-next-line
+      const spec = require("../../swagger.json");
+      spec.servers = [
+        {
+          url: "http://" + hostname + ":" + port,
+          description: "bw serve",
+        },
+      ];
+
       server.use(
         koaSwagger({
           swaggerOptions: {
-            spec: require("../../swagger.json"),
+            spec,
           },
         }),
       );
