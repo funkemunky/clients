@@ -60,10 +60,10 @@ export class PasswordHealthService {
     // Map cipher IDs to ciphers
     const cipherMap = new Map<string, CipherView>(ciphers.map((cipher) => [cipher.id, cipher]));
 
-    // Set to store at-risk member IDs
+    // Set to store at-risk members
     const totalAtRiskMembers = new Set<string>();
 
-    // Set to store at-risk app IDs
+    // Set to store total at-risk apps
     const totalAtRiskApps = new Set<string>();
 
     // Set to store at-risk cipher IDs
@@ -145,7 +145,6 @@ export class PasswordHealthService {
       }
     }
 
-    // Convert map to array
     return {
       totalAtRiskMembers: totalAtRiskMembers.size,
       totalMembers: members.length,
