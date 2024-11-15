@@ -1,14 +1,12 @@
+use secret_service::{SecretService, EncryptionType};
 use std::str::FromStr;
-
 use anyhow::Result;
 use base64::Engine;
 use rand::RngCore;
 use sha2::{Digest, Sha256};
-
 use crate::biometric::{base64_engine, KeyMaterial, OsDerivedKey};
 use zbus::Connection;
 use zbus_polkit::policykit1::*;
-
 use super::{decrypt, encrypt};
 use crate::crypto::CipherString;
 use anyhow::anyhow;
@@ -85,7 +83,17 @@ impl super::BiometricTrait for Biometric {
         ))?;
 
         let encrypted_secret = encrypt(secret, &key_material, iv_b64)?;
-        crate::password::set_password(service, account, &encrypted_secret)?;
+
+        let ss = SecretService::new()?;
+        let collection = ss.get_default_collection()?;
+        collection.create_item(
+            service,
+            vec![("account", account)],
+            encrypted_secret.as_bytes(),
+            true,
+            "text/plain",
+        )?;
+
         Ok(encrypted_secret)
     }
 
@@ -98,7 +106,12 @@ impl super::BiometricTrait for Biometric {
             "Key material is required for polkit protected keys"
         ))?;
 
-        let encrypted_secret = crate::password::get_password(service, account)?;
+        let ss = SecretService::new()?;
+        let collection = ss.get_default_collection()?;
+        let search = collection.search_items(vec![("account", account)])?;
+        let item = search.get(0).ok_or(anyhow!("Secret not found"))?;
+        let encrypted_secret = String::from_utf8(item.get_secret()?)?;
+
         let secret = CipherString::from_str(&encrypted_secret)?;
         return Ok(decrypt(&secret, &key_material)?);
     }
