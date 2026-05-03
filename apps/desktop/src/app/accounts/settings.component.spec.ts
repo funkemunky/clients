@@ -167,6 +167,7 @@ describe("SettingsComponent", () => {
     fixture.detectChanges();
 
     desktopBiometricsService.hasPersistentKey.mockResolvedValue(false);
+    desktopBiometricsService.isLinuxV2BiometricsEnabled.mockResolvedValue(false);
     vaultTimeoutSettingsService.isBiometricLockSet.mockResolvedValue(false);
     biometricStateService.promptAutomatically$ = of(false);
     autofillSettingsServiceAbstraction.clearClipboardDelay$ = of(null);
@@ -377,6 +378,35 @@ describe("SettingsComponent", () => {
         return textNodes;
       }
     });
+
+    describe("linux desktop", () => {
+      beforeEach(() => {
+        platformUtilsService.getDevice.mockReturnValue(DeviceType.LinuxDesktop);
+        desktopBiometricsService.isLinuxV2BiometricsEnabled.mockResolvedValue(true);
+
+        // Recreate component to apply the correct device
+        fixture = TestBed.createComponent(SettingsComponent);
+        component = fixture.componentInstance;
+      });
+
+      it("displays require MP/PIN on app restart checkbox when linux v2 biometrics is enabled", async () => {
+        pinServiceAbstraction.isPinSet.mockResolvedValue(true);
+
+        await component.ngOnInit();
+        fixture.detectChanges();
+
+        expect(desktopBiometricsService.enableLinuxV2Biometrics).toHaveBeenCalled();
+
+        const requireMasterPasswordOnAppRestartLabelElement = fixture.debugElement.query(
+          By.css("label[for='requireMasterPasswordOnAppRestart']"),
+        );
+        expect(requireMasterPasswordOnAppRestartLabelElement).not.toBeNull();
+        expect(requireMasterPasswordOnAppRestartLabelElement.children[0].attributes).toMatchObject({
+          id: "requireMasterPasswordOnAppRestart",
+          type: "checkbox",
+        });
+      });
+    });
   });
 
   describe("updatePinHandler", () => {
@@ -442,35 +472,29 @@ describe("SettingsComponent", () => {
           keyService.userKey$ = jest.fn().mockReturnValue(of(mockUserKey));
         });
 
-        test.each([false, true])(
-          "enrolls persistent biometric if needed, enrolled is %s",
-          async (enrolled) => {
-            desktopBiometricsService.hasPersistentKey.mockResolvedValue(enrolled);
+        it("enrolls persistent biometric and verifies keyring storage", async () => {
+          desktopBiometricsService.hasPersistentKey.mockResolvedValue(true);
 
-            await component.ngOnInit();
-            component.isWindows = true;
-            component.form.value.requireMasterPasswordOnAppRestart = true;
-            component.userHasMasterPassword = false;
-            component.supportsBiometric = true;
-            component.form.value.biometric = true;
+          await component.ngOnInit();
+          component.isWindows = true;
+          component.supportsPersistentBiometric = true;
+          component.form.value.requireMasterPasswordOnAppRestart = true;
+          component.userHasMasterPassword = false;
+          component.supportsBiometric = true;
+          component.form.value.biometric = true;
 
-            await component.updatePinHandler(false);
+          await component.updatePinHandler(false);
 
-            expect(component.form.controls.requireMasterPasswordOnAppRestart.value).toBe(false);
-            expect(component.form.controls.pin.value).toBe(false);
-            expect(pinServiceAbstraction.unsetPin).toHaveBeenCalled();
-            expect(messagingService.send).toHaveBeenCalledWith("redrawMenu");
-
-            if (enrolled) {
-              expect(desktopBiometricsService.enrollPersistent).not.toHaveBeenCalled();
-            } else {
-              expect(desktopBiometricsService.enrollPersistent).toHaveBeenCalledWith(
-                mockUserId,
-                mockUserKey,
-              );
-            }
-          },
-        );
+          expect(component.form.controls.requireMasterPasswordOnAppRestart.value).toBe(false);
+          expect(component.form.controls.pin.value).toBe(false);
+          expect(pinServiceAbstraction.unsetPin).toHaveBeenCalled();
+          expect(messagingService.send).toHaveBeenCalledWith("redrawMenu");
+          expect(desktopBiometricsService.enrollPersistent).toHaveBeenCalledWith(
+            mockUserId,
+            mockUserKey,
+          );
+          expect(desktopBiometricsService.hasPersistentKey).toHaveBeenCalledWith(mockUserId);
+        });
 
         test.each([
           {
@@ -659,6 +683,7 @@ describe("SettingsComponent", () => {
           keyService.userKey$ = jest.fn().mockReturnValue(of(mockUserKey));
           component.isWindows = true;
           component.isLinux = false;
+          component.supportsPersistentBiometric = true;
 
           desktopBiometricsService.getBiometricsStatus.mockResolvedValue(
             BiometricsStatus.Available,
@@ -669,6 +694,7 @@ describe("SettingsComponent", () => {
         });
 
         it("handles windows case", async () => {
+          component.userHasMasterPassword = true;
           await component.updateBiometricHandler(true);
 
           expect(biometricStateService.setBiometricUnlockEnabled).toHaveBeenCalledWith(true);
@@ -687,7 +713,7 @@ describe("SettingsComponent", () => {
           it("when the user doesn't have a master password or a PIN set, allows biometric unlock on app restart", async () => {
             component.userHasMasterPassword = false;
             component.userHasPinSet = false;
-            desktopBiometricsService.hasPersistentKey.mockResolvedValue(false);
+            desktopBiometricsService.hasPersistentKey.mockResolvedValue(true);
 
             await component.updateBiometricHandler(true);
 
@@ -748,11 +774,21 @@ describe("SettingsComponent", () => {
 
         component.isWindows = false;
         component.isLinux = true;
+        component.supportsPersistentBiometric = true;
+        component.userHasMasterPassword = true;
+        keyService.userKey$ = jest.fn().mockReturnValue(of(mockUserKey));
         await component.updateBiometricHandler(true);
 
         expect(biometricStateService.setBiometricUnlockEnabled).toHaveBeenCalledWith(true);
         expect(component.form.controls.autoPromptBiometrics.value).toBe(false);
         expect(biometricStateService.setPromptAutomatically).toHaveBeenCalledWith(false);
+        expect(desktopBiometricsService.deleteBiometricUnlockKeyForUser).toHaveBeenCalledWith(
+          mockUserId,
+        );
+        expect(desktopBiometricsService.setBiometricProtectedUnlockKeyForUser).toHaveBeenCalledWith(
+          mockUserId,
+          mockUserKey,
+        );
         expect(keyService.refreshAdditionalKeys).toHaveBeenCalledWith(mockUserId);
         expect(component.form.controls.biometric.value).toBe(true);
         expect(messagingService.send).toHaveBeenCalledWith("redrawMenu");
@@ -836,8 +872,8 @@ describe("SettingsComponent", () => {
     });
 
     describe("when updating to false", () => {
-      it("doesn't enroll persistent biometric if already enrolled", async () => {
-        biometricStateService.hasPersistentKey.mockResolvedValue(false);
+      it("enrolls persistent biometric and verifies it was saved", async () => {
+        desktopBiometricsService.hasPersistentKey.mockResolvedValue(true);
 
         await component.ngOnInit();
         await component.updateRequireMasterPasswordOnAppRestartHandler(false, mockUserId);
@@ -848,6 +884,23 @@ describe("SettingsComponent", () => {
           mockUserKey,
         );
         expect(component.form.controls.requireMasterPasswordOnAppRestart.value).toBe(false);
+      });
+
+      it("shows an error when persistent biometric enrollment does not save to the keyring", async () => {
+        desktopBiometricsService.hasPersistentKey.mockResolvedValue(false);
+
+        await component.ngOnInit();
+        await component.updateRequireMasterPasswordOnAppRestartHandler(false, mockUserId);
+
+        expect(desktopBiometricsService.enrollPersistent).toHaveBeenCalledWith(
+          mockUserId,
+          mockUserKey,
+        );
+        expect(logService.error).toHaveBeenCalled();
+        expect(validationService.showError).toHaveBeenCalledWith(expect.any(Error));
+        expect((validationService.showError as jest.Mock).mock.calls[0][0].message).toBe(
+          "Persistent biometric unlock key was not saved to the OS keyring.",
+        );
       });
     });
   });
