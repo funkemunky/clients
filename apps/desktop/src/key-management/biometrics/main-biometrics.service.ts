@@ -24,8 +24,8 @@ export class MainBiometricsService extends DesktopBiometricsService {
     private logService: LogService,
     private platform: NodeJS.Platform,
     private biometricStateService: BiometricStateService,
-    private encryptService: EncryptService,
-    private cryptoFunctionService: CryptoFunctionService,
+    encryptService: EncryptService,
+    cryptoFunctionService: CryptoFunctionService,
   ) {
     super();
     if (platform === "win32") {
@@ -39,14 +39,7 @@ export class MainBiometricsService extends DesktopBiometricsService {
       const OsBiometricsServiceMac = require("./os-biometrics-mac.service").default;
       this.osBiometricsService = new OsBiometricsServiceMac(this.i18nService, this.logService);
     } else if (platform === "linux") {
-      // eslint-disable-next-line
-      const OsBiometricsServiceLinux = require("./os-biometrics-linux.service").default;
-      this.osBiometricsService = new OsBiometricsServiceLinux(
-        this.biometricStateService,
-        this.encryptService,
-        this.cryptoFunctionService,
-        this.logService,
-      );
+      this.loadLinuxV2Biometrics();
     } else {
       throw new Error("Unsupported platform");
     }
@@ -157,13 +150,17 @@ export class MainBiometricsService extends DesktopBiometricsService {
 
   async enableLinuxV2Biometrics(): Promise<void> {
     if (this.platform === "linux" && !this.linuxV2BiometricsEnabled) {
-      this.logService.info("[BiometricsMain] Loading native biometrics module v2 for linux");
-      this.osBiometricsService = new LinuxBiometricsSystem();
-      this.linuxV2BiometricsEnabled = true;
+      this.loadLinuxV2Biometrics();
     }
   }
 
   async isLinuxV2BiometricsEnabled(): Promise<boolean> {
     return this.linuxV2BiometricsEnabled;
+  }
+
+  private loadLinuxV2Biometrics(): void {
+    this.logService.info("[BiometricsMain] Loading native biometrics module v2 for linux");
+    this.osBiometricsService = new LinuxBiometricsSystem();
+    this.linuxV2BiometricsEnabled = true;
   }
 }

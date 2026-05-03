@@ -17,8 +17,7 @@ import {
 import { WindowMain } from "../../main/window.main";
 
 import { MainBiometricsService } from "./main-biometrics.service";
-import { WindowsBiometricsSystem } from "./native-v2";
-import OsBiometricsServiceLinux from "./os-biometrics-linux.service";
+import { LinuxBiometricsSystem, WindowsBiometricsSystem } from "./native-v2";
 import OsBiometricsServiceMac from "./os-biometrics-mac.service";
 import { OsBiometricService } from "./os-biometrics.service";
 
@@ -30,6 +29,7 @@ jest.mock("@bitwarden/desktop-napi", () => {
 });
 
 jest.mock("./native-v2", () => ({
+  LinuxBiometricsSystem: jest.fn(),
   WindowsBiometricsSystem: jest.fn(),
   biometrics_v2: {
     initBiometricSystem: jest.fn(),
@@ -78,7 +78,7 @@ describe("MainBiometricsService", function () {
       expect(internalService).toBeInstanceOf(OsBiometricsServiceMac);
     });
 
-    it("Should create a biometrics service specific for Linux", () => {
+    it("Should create the native v2 biometrics service for Linux", async () => {
       const sut = new MainBiometricsService(
         i18nService,
         windowMain,
@@ -91,7 +91,8 @@ describe("MainBiometricsService", function () {
 
       const internalService = (sut as any).osBiometricsService;
       expect(internalService).not.toBeNull();
-      expect(internalService).toBeInstanceOf(OsBiometricsServiceLinux);
+      expect(internalService).toBeInstanceOf(LinuxBiometricsSystem);
+      await expect(sut.isLinuxV2BiometricsEnabled()).resolves.toBe(true);
     });
   });
 

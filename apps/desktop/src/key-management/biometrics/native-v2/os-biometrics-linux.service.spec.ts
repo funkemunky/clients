@@ -13,6 +13,8 @@ jest.mock("@bitwarden/desktop-napi", () => ({
     unlock: jest.fn(),
     authenticate: jest.fn(),
     authenticateAvailable: jest.fn(),
+    enrollPersistent: jest.fn(),
+    hasPersistent: jest.fn(),
     unlockAvailable: jest.fn(),
   },
   passwords: {
@@ -84,13 +86,45 @@ describe("OsBiometricsServiceLinux", () => {
   });
 
   it("should get biometrics first unlock status for user", async () => {
+    (biometrics_v2.hasPersistent as jest.Mock).mockResolvedValue(false);
     (biometrics_v2.unlockAvailable as jest.Mock).mockResolvedValue(true);
     const result = await service.getBiometricsFirstUnlockStatusForUser(userId);
     expect(result).toBe(BiometricsStatus.Available);
   });
 
-  it("should return false for hasPersistentKey", async () => {
+  it("should get biometrics first unlock status from a persistent Secret Service key after restart", async () => {
+    (biometrics_v2.hasPersistent as jest.Mock).mockResolvedValue(true);
+    (biometrics_v2.unlockAvailable as jest.Mock).mockResolvedValue(false);
+
+    const result = await service.getBiometricsFirstUnlockStatusForUser(userId);
+
+    expect(biometrics_v2.hasPersistent).toHaveBeenCalledWith("mockSystem", userId);
+    expect(biometrics_v2.unlockAvailable).not.toHaveBeenCalled();
+    expect(result).toBe(BiometricsStatus.Available);
+  });
+
+  it("should return unlock needed when no persistent or in-memory key is available", async () => {
+    (biometrics_v2.hasPersistent as jest.Mock).mockResolvedValue(false);
+    (biometrics_v2.unlockAvailable as jest.Mock).mockResolvedValue(false);
+
+    const result = await service.getBiometricsFirstUnlockStatusForUser(userId);
+
+    expect(result).toBe(BiometricsStatus.UnlockNeeded);
+  });
+
+  it("should enroll persistent biometric key", async () => {
+    await service.enrollPersistent(userId, key);
+    expect(biometrics_v2.enrollPersistent).toHaveBeenCalledWith(
+      "mockSystem",
+      userId,
+      Buffer.from(mockKey),
+    );
+  });
+
+  it("should return native persistent key status", async () => {
+    (biometrics_v2.hasPersistent as jest.Mock).mockResolvedValue(true);
     const result = await service.hasPersistentKey(userId);
-    expect(result).toBe(false);
+    expect(biometrics_v2.hasPersistent).toHaveBeenCalledWith("mockSystem", userId);
+    expect(result).toBe(true);
   });
 });
