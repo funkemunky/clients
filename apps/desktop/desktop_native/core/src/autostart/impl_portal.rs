@@ -1,6 +1,14 @@
 use anyhow::Result;
-use ashpd::desktop::background::Background;
+use ashpd::desktop::background::{Background, BackgroundProxy};
 use tracing::{error, info};
+
+pub async fn is_background_portal_available() -> bool {
+    let Ok(proxy) = BackgroundProxy::new().await else {
+        return false;
+    };
+
+    proxy.get_property::<u32>("version").await.is_ok()
+}
 
 pub async fn set_autostart(autostart: bool, params: Vec<String>) -> Result<()> {
     let request = if params.is_empty() {

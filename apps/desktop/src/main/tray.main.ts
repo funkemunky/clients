@@ -6,6 +6,7 @@ import { app, BrowserWindow, Menu, MenuItemConstructorOptions, nativeImage, Tray
 
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { MessagingService } from "@bitwarden/common/platform/abstractions/messaging.service";
+import { autostart } from "@bitwarden/desktop-napi";
 import { BiometricsService } from "@bitwarden/key-management";
 
 import { DesktopSettingsService } from "../platform/services/desktop-settings.service";
@@ -22,7 +23,7 @@ export class TrayMain {
   private pressedIcon: Electron.NativeImage;
   // Cached so the close handler can decide synchronously whether to call preventDefault().
   private runInBackground = false;
-
+  private backgroundPortalAvailable = false;
   constructor(
     private windowMain: WindowMain,
     private i18nService: I18nService,
@@ -74,6 +75,14 @@ export class TrayMain {
     }
 
     this.contextMenu = Menu.buildFromTemplate(menuItemOptions);
+
+    if (this.isLinux()) {
+      try {
+        this.backgroundPortalAvailable = await autostart.isBackgroundPortalAvailable();
+      } catch {
+        this.backgroundPortalAvailable = false;
+      }
+    }
 
     // The tray icon is shown only while "keep running in the background" is enabled.
     // React to the setting so toggling it shows/removes the tray without a restart.
@@ -156,7 +165,7 @@ export class TrayMain {
   }
 
   showTray() {
-    if (this.tray != null) {
+    if (this.tray != null || this.backgroundPortalAvailable) {
       return;
     }
 
