@@ -7,6 +7,7 @@ import { firstValueFrom } from "rxjs";
 
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { MessagingService } from "@bitwarden/common/platform/abstractions/messaging.service";
+import { autostart } from "@bitwarden/desktop-napi";
 import { BiometricsService } from "@bitwarden/key-management";
 
 import { DesktopSettingsService } from "../platform/services/desktop-settings.service";
@@ -21,6 +22,7 @@ export class TrayMain {
   private tray: Tray;
   private icon: string | Electron.NativeImage;
   private pressedIcon: Electron.NativeImage;
+  private backgroundPortalAvailable = false;
 
   constructor(
     private windowMain: WindowMain,
@@ -73,6 +75,14 @@ export class TrayMain {
     }
 
     this.contextMenu = Menu.buildFromTemplate(menuItemOptions);
+
+    if (this.isLinux()) {
+      try {
+        this.backgroundPortalAvailable = await autostart.isBackgroundPortalAvailable();
+      } catch {
+        this.backgroundPortalAvailable = false;
+      }
+    }
 
     // The tray icon is shown only while "keep running in the background" is enabled.
     // React to the setting so toggling it shows/removes the tray without a restart.
@@ -154,7 +164,7 @@ export class TrayMain {
   }
 
   showTray() {
-    if (this.tray != null) {
+    if (this.tray != null || this.backgroundPortalAvailable) {
       return;
     }
 

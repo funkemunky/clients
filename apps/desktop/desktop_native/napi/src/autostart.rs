@@ -16,6 +16,11 @@ pub mod autostart {
     }
 
     #[napi]
+    pub async fn is_background_portal_available() -> napi::Result<bool> {
+        Ok(desktop_core::autostart::is_background_portal_available().await)
+    }
+
+    #[napi]
     pub async fn set_autostart(enabled: bool, config: AutostartConfig) -> napi::Result<()> {
         desktop_core::autostart::set_autostart(enabled, config.into())
             .await

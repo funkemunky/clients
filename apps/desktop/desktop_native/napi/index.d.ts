@@ -189,6 +189,7 @@ export declare namespace autostart {
     execPath: string
     autostartFlag: string
   }
+  export function isBackgroundPortalAvailable(): Promise<boolean>
   export function setAutostart(enabled: boolean, config: AutostartConfig): Promise<void>
 }
 

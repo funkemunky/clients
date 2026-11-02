@@ -20,6 +20,15 @@ pub struct AutostartConfig {
     pub autostart_flag: String,
 }
 
+/// Check whether the XDG Desktop Background portal is supported in the current environment.
+pub async fn is_background_portal_available() -> bool {
+    if std::env::var_os("container").is_none() {
+        return false;
+    }
+
+    impl_portal::is_background_portal_available().await
+}
+
 /// Enable or disable autostart on Linux.
 pub async fn set_autostart(enabled: bool, config: AutostartConfig) -> Result<()> {
     if std::env::var_os("container").is_some() {

@@ -8,6 +8,11 @@ pub struct AutostartConfig {
 }
 
 #[allow(clippy::unused_async)]
+pub async fn is_background_portal_available() -> bool {
+    false
+}
+
+#[allow(clippy::unused_async)]
 pub async fn set_autostart(_enabled: bool, _config: AutostartConfig) -> Result<()> {
     unimplemented!();
 }
